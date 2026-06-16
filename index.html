@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mucizevi İzleme Platformu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stil.css') }}">
+    <style>
+        /* Sezon Butonları İçin Ek Stiller */
+        .sezon-nav {
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .sezon-btn {
+            background: #262626;
+            color: white;
+            border: 2px solid #e60000;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .sezon-btn:hover {
+            background: #e60000;
+        }
+        .sezon-btn.aktif {
+            background: #e60000;
+            box-shadow: 0 0 15px rgba(230, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span style="font-size: 20px; font-weight: bold; color: white;">🐞 Mucizevi Kutay</span>
+        <a href="/login">🔒 Admin Paneli</a>
+    </div>
+
+    <h1>Mucizevi Bölümler Dünyası</h1>
+    <p style="color: #aaa;">İstediğin sezonu seç ve kesintisiz izlemeye başla!</p>
+
+    <div class="sezon-nav">
+        <a href="/?sezon=1" class="sezon-btn {% if aktif_sezon == '1' %}aktif{% endif %}">1. Sezon</a>
+        <a href="/?sezon=2" class="sezon-btn {% if aktif_sezon == '2' %}aktif{% endif %}">2. Sezon</a>
+        <a href="/?sezon=3" class="sezon-btn {% if aktif_sezon == '3' %}aktif{% endif %}">3. Sezon</a>
+        <a href="/?sezon=4" class="sezon-btn {% if aktif_sezon == '4' %}aktif{% endif %}">4. Sezon</a>
+        <a href="/?sezon=5" class="sezon-btn {% if aktif_sezon == '5' %}aktif{% endif %}">5. Sezon</a>
+        <a href="/?sezon=6" class="sezon-btn {% if aktif_sezon == '6' %}aktif{% endif %}">6. Sezon</a>
+        <a href="/?sezon=ozel" class="sezon-btn {% if aktif_sezon == 'ozel' %}aktif{% endif %}">✨ Özel Bölümler</a>
+    </div>
+
+    <hr style="border: 1px solid #333; width: 80%;">
+
+    <div class="card-container">
+        {% if bolumler %}
+            {% for bolum in bolumler %}
+                <div class="card">
+                    <h3>
+                        {% if aktif_sezon == 'ozel' %}
+                            💥 Özel:
+                        {% else %}
+                            Bölüm {{ bolum[2] }}:
+                        {% endif %}
+                        {{ bolum[1] }}
+                    </h3>
+                    <p style="color: #ccc; font-size: 14px;">{{ bolum[4] }}</p>
+                    <a href="{{ bolum[3] }}" target="_blank" class="btn">▶ Şimdi İzle</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #888; width: 100%;">Bu sezona ait henüz hiçbir bölüm eklenmemiş.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
